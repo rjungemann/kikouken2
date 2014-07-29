@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="zepto.js"></script>
+    <script src="underscore.js"></script>
+    <script src="eventemitter2.js"></script>
+    <script src="kikouken.js"></script>
+    <script>
+      var kikouken = new Kikouken();
+      kikouken.bind(document);
+
+      setInterval(function() {
+        $('#debug').text(kikouken.present());
+
+        kikouken.update();
+      }, 200);
+
+      kikouken.on('special_move', function(moveName) {
+        console.log(moveName);
+      });
+
+      window.kikouken = kikouken;
+    </script>
+  </head>
+
+  <body>
+    <div id="debug"></div>
+  </body>
+</html>
