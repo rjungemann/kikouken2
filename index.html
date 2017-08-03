@@ -7,7 +7,8 @@
     <script src="kikouken.js"></script>
     <script>
       var kikouken = new Kikouken();
-      kikouken.bind(document);
+      $(document).on('keydown', _.bind(kikouken.keydown, kikouken));
+      $(document).on('keyup', _.bind(kikouken.keyup, kikouken));
 
       setInterval(function() {
         $('#debug').text(kikouken.present());
@@ -15,7 +16,7 @@
         kikouken.update();
       }, 200);
 
-      kikouken.on('special_move', function(moveName) {
+      kikouken.on('move', function(moveName) {
         console.log(moveName);
       });
 

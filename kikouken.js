@@ -1,5 +1,3 @@
-// TODO: Hook up EventEmitter and create an all-in-one method
-
 function subclass(P, C) {
   C.superproto = P;
   C.prototype = Object.create(P.prototype);
@@ -8,7 +6,7 @@ function subclass(P, C) {
 
 function Kikouken() {
   this.maxEventsSize = 20;
-  this.chargeTime = 1000;
+  this.chargeTime = 500;
   this.events = [];
   this.mappings = {
     37: 'left',
@@ -24,29 +22,19 @@ function Kikouken() {
   // move should still match.
   this.moves = [
     ['hadouken', 'down, down-right, right, z'],
-    ['shoriyuken', 'down, right, down-right, z'],
+    ['shoriyuken', 'right, down, down-right, z'],
     ['sonic boom', 'hold left, right + z']
   ]
 }
 
 subclass(EventEmitter2, Kikouken);
 
-Kikouken.prototype.bind = function(element) {
-  $(element).on('keydown', _.bind(kikouken.keydown, kikouken));
-  $(element).on('keyup', _.bind(kikouken.keyup, kikouken));
-};
-
-Kikouken.prototype.unbind = function(element) {
-  $(element).off('keydown', _.bind(kikouken.keydown, kikouken));
-  $(element).off('keyup', _.bind(kikouken.keyup, kikouken));
-};
-
 Kikouken.prototype.update = function() {
   var parsed = kikouken.parse();
   var move = kikouken.handle(parsed);
 
   if (move) {
-    this.emit('special_move', move);
+    this.emit('move', move);
     this.events = [];
   }
 }
